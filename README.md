@@ -49,19 +49,6 @@ The admin panel features a **mobile-first responsive design** with:
 - Firebase project with Firestore and Authentication enabled
 - Admin user account with `admin: true` in Firestore
 
-### Environment Configuration
-
-Create a `.env` file with your Firebase configuration:
-
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-```
-
 ## 🚀 Getting Started
 
 ### 1. Install Dependencies
@@ -161,10 +148,6 @@ admin/
 - Real-time dashboard statistics
 - Live filtering and search results
 
-## 🚀 Deployment
-
-The admin site is configured to be deployed at the `/admin/` path. When deploying:
-
 ## 📦 Project Setup
 
 ### Install Dependencies
@@ -196,101 +179,13 @@ npm run lint
 - **Environment Variables**: Support for `.env` files
 - **Asset Optimization**: Automatic CSS/JS minification and optimization
 
-## Deployment
+## 📞 Dev Support
 
-The admin site is configured to be deployed at the `/admin/` path. When deploying:
+For development questions or technical support, please contact:
 
-1. Build the project: `npm run build`
-2. Upload the `dist/` folder to your web server
-3. Ensure the server is configured to serve the admin site at `/admin/`
-4. For SPA routing, configure your server to redirect all `/admin/*` requests to `/admin/index.html`
+- **Developer**: Tanuj Siripurapu
+- **Email**: dev@tanuj.xyz
 
-### Server Configuration Examples
+---
 
-**Apache (.htaccess):**
-
-```apache
-RewriteEngine On
-RewriteBase /admin/
-RewriteRule ^index\.html$ - [L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /admin/index.html [L]
-```
-
-**Nginx:**
-
-```nginx
-location /admin/ {
-    try_files $uri $uri/ /admin/index.html;
-}
-```
-
-**Netlify (`_redirects`):**
-
-```
-/admin/*    /admin/index.html   200
-```
-
-**Vercel (`vercel.json`):**
-
-```json
-{
-  "rewrites": [{ "source": "/admin/(.*)", "destination": "/admin/index.html" }]
-}
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Authentication Problems:**
-
-- Ensure Firebase project is properly configured
-- Verify admin user document exists in Firestore
-- Check Firebase Authentication is enabled
-
-**Build Issues:**
-
-- Clear `node_modules` and reinstall: `rm -rf node_modules && npm install`
-- Check Node.js version (requires 16+)
-- Verify environment variables are set correctly
-
-**Responsive Design Issues:**
-
-- Test on actual devices, not just browser dev tools
-- Check CSS custom properties are loading
-- Verify breakpoint media queries are working
-
-### Browser Support
-
-- **Modern Browsers**: Chrome 88+, Firefox 85+, Safari 14+, Edge 88+
-- **Mobile**: iOS Safari 14+, Chrome Mobile 88+
-- **Features**: CSS Grid, Flexbox, CSS Custom Properties, ES2020+
-
-## 🤝 Contributing
-
-### Development Guidelines
-
-- Follow Vue 3 Composition API patterns
-- Use mobile-first responsive design approach
-- Maintain consistent CSS architecture
-- Test on multiple device sizes
-- Follow existing code structure and naming conventions
-
-### Code Quality
-
-- Use ESLint for code linting
-- Follow Vue.js style guide
-- Write meaningful commit messages
-- Test responsive breakpoints thoroughly
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
-
-## 🔗 Related Projects
-
-- **Main Site**: [EcoFresh Dry Cleaner](../site/) - Customer-facing website
-- **Firebase**: [Firebase Console](https://console.firebase.google.com/) - Backend services
-- **Vue.js**: [Vue 3 Documentation](https://vuejs.org/) - Frontend framework
+Built with ❤️ using Vue 3 and modern web technologies.
