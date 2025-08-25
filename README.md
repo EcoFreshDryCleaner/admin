@@ -1,30 +1,57 @@
-# EcoFresh Admin
+# EcoFresh Admin Panel 🔧
 
-A modern, mobile-responsive admin panel for managing EcoFresh promotions and special offers. Built with Vue 3, Vite, Firebase, and VueFire for real-time data management.
+A modern, responsive admin panel for managing EcoFresh Dry Cleaner promotions and special offers. Built with Vue 3, Vite, and Firebase integration for real-time data management.
 
-## ✨ Features
+## 🏢 About EcoFresh Admin
 
-- 🔐 **Firebase Authentication** - Secure admin access with user verification
-- 📊 **Responsive Dashboard** - Mobile-first design with promotion statistics
-- 🎯 **Promotion Management** - Full CRUD operations for promotions
-- 📱 **Mobile-First Design** - Optimized for all device sizes
-- 🎨 **Modern UI/UX** - Clean, sleek interface with FontAwesome icons
-- 🔥 **Real-time Data** - Live updates with VueFire and Firestore
-- 📋 **Smart Filtering** - Filter promotions by status, featured, and modal settings
-- 🎭 **Dual Layout System** - Table view for desktop, card view for mobile
-- 🌈 **Responsive Breakpoints** - Optimized for mobile (640px), tablet (1024px), and desktop
+The EcoFresh Admin Panel provides a powerful, user-friendly interface to manage promotional content, track performance metrics, and maintain the digital presence of EcoFresh Dry Cleaner services.
 
-## 🛠️ Technical Stack
+### What Our Admin Panel Offers
 
-- **Frontend Framework**: Vue 3 with Composition API
-- **Build Tool**: Vite with `/admin/` base path configuration
-- **State Management**: Pinia for authentication and app state
-- **Database**: Firebase Firestore with real-time updates
-- **Authentication**: Firebase Auth with admin role verification
+- **Promotion Management**: Full CRUD operations for promotional content
+- **Real-time Dashboard**: Live statistics and performance metrics
+- **Mobile-First Design**: Responsive interface optimized for all devices
+- **Secure Access**: Firebase authentication with admin role verification
+- **Instant Updates**: Real-time synchronization across all platforms
+
+## 🌟 Features
+
+- **Dashboard**: Real-time statistics and recent promotions overview
+- **Promotion Management**: Create, edit, delete, and manage promotional content
+- **Smart Filtering**: Filter by status, featured, and modal settings
+- **Responsive Design**: Mobile-first design with adaptive layouts
+- **Real-time Data**: Live updates with VueFire and Firestore
+- **Secure Authentication**: Firebase Auth with admin role verification
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Vue 3.5.18 with Composition API
+- **Build Tool**: Vite 7.0.6 with `/admin/` base path
+- **State Management**: Pinia 2.1.7
+- **Database**: Firebase 12.1.0 (Firestore)
+- **Authentication**: Firebase Auth
+- **Real-time Data**: VueFire 3.2.2
 - **Styling**: Custom CSS with mobile-first responsive design
-- **Icons**: FontAwesome (Solid, Regular, Brands)
-- **Routing**: Vue Router with navigation guards
-- **Real-time Data**: VueFire for Firestore integration
+- **Icons**: Font Awesome 7.0.0
+- **Deployment**: GitHub Pages with gh-pages
+
+## 🚀 Development
+
+### Prerequisites
+
+- Node.js (^20.19.0 or >=22.12.0)
+- npm or yarn
+- Firebase project with Firestore and Authentication enabled
+
+### Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run format       # Format code with Prettier
+npm run deploy       # Deploy to GitHub Pages
+```
 
 ## 📱 Responsive Design
 
@@ -41,43 +68,6 @@ The admin panel features a **mobile-first responsive design** with:
 - **Navigation**: Adaptive header and navigation based on screen size
 - **Forms**: Responsive input layouts with proper mobile spacing
 
-## 🔧 Development Setup
-
-### Prerequisites
-
-- Node.js 16+ and npm
-- Firebase project with Firestore and Authentication enabled
-- Admin user account with `admin: true` in Firestore
-
-## 🚀 Getting Started
-
-### 1. Install Dependencies
-
-```sh
-npm install
-```
-
-### 2. Configure Firebase
-
-Update `src/firebase/config.js` with your Firebase project settings.
-
-### 3. Set Up Admin User
-
-In Firestore, create a user document at `/users/{uid}` with:
-
-```json
-{
-  "admin": true,
-  "email": "admin@example.com"
-}
-```
-
-### 4. Start Development Server
-
-```sh
-npm run dev
-```
-
 ## 📁 Project Structure
 
 ```
@@ -85,54 +75,69 @@ admin/
 ├── src/
 │   ├── components/          # Reusable Vue components
 │   │   ├── DashboardLayout.vue    # Main layout with responsive header/nav
-│   │   └── ...
+│   │   └── PromotionForm.vue      # Promotion creation/editing form
 │   ├── views/              # Page components
 │   │   ├── Dashboard.vue          # Dashboard with responsive stats
 │   │   ├── Promotions.vue         # Promotions management (table/card views)
 │   │   ├── Login.vue             # Authentication page
-│   │   └── ...
+│   │   ├── EditPromotion.vue     # Edit existing promotion
+│   │   └── NewPromotion.vue      # Create new promotion
 │   ├── services/           # Firebase and API services
 │   │   ├── authService.js         # Authentication logic
 │   │   └── promotionsService.js   # Firestore operations
 │   ├── stores/             # Pinia state management
 │   │   └── auth.js               # Authentication store
 │   ├── styles/             # Global CSS and responsive utilities
-│   │   └── admin.css             # Mobile-first responsive styles
-│   └── firebase/           # Firebase configuration
-│       └── config.js             # Firebase app initialization
+│   ├── firebase/           # Firebase configuration
+│   │   └── config.js             # Firebase app initialization
+│   ├── router/             # Vue Router setup
+│   ├── App.vue             # Main app component
+│   └── main.js             # App entry point
+├── public/                 # Static assets
+└── package.json
 ```
 
-## 🎨 Styling & Design
+## 🔧 Development
 
-### CSS Architecture
+### Code Quality
+
+- **Prettier**: Code formatting with consistent style
+- **Vue DevTools**: Development debugging and testing
+- **ESLint**: Code quality (can be added if needed)
+
+### Firebase Integration
+
+The admin panel uses Firebase for core services:
+
+- **Authentication**: Firebase Auth for secure admin access
+- **Database**: Firestore for promotions data with real-time updates
+- **Real-time Sync**: VueFire integration for live data updates
+- **Security**: Admin role verification through Firestore
+
+### Customization
+
+#### Colors and Styling
+
+The admin panel uses custom CSS with:
 
 - **Mobile-first approach** with progressive enhancement
 - **Custom CSS variables** for consistent theming
 - **Responsive utilities** for breakpoint management
-- **No Tailwind dependencies** - pure custom CSS for better control
+- **No external UI frameworks** - pure custom CSS for better control
 
-### Design Principles
+#### Admin Setup
 
-- **Clean and modern** interface with subtle shadows and gradients
-- **Touch-friendly** elements with proper sizing for mobile
-- **Consistent spacing** using CSS custom properties
-- **Smooth transitions** and hover effects for better UX
+To set up admin access:
 
-## 🔐 Authentication & Security
-
-### Admin Access Control
-
-- Firebase Authentication for user login
-- Firestore document verification (`/users/{uid}.admin === true`)
-- Protected routes with navigation guards
-- Automatic redirect to login for unauthenticated users
-
-### Security Features
-
-- Server-side validation of admin status
-- Secure Firebase configuration
-- Protected API endpoints
-- Session management with Pinia
+1. **Create Firebase project** with Firestore and Authentication enabled
+2. **Set up admin user** in Firestore at `/users/{uid}` with:
+   ```json
+   {
+     "admin": true,
+     "email": "admin@example.com"
+   }
+   ```
+3. **Update Firebase config** in `src/firebase/config.js`
 
 ## 📊 Data Management
 
@@ -148,44 +153,12 @@ admin/
 - Real-time dashboard statistics
 - Live filtering and search results
 
-## 📦 Project Setup
+## 📞 Support
 
-### Install Dependencies
-
-```sh
-npm install
-```
-
-### Development Commands
-
-```sh
-# Start development server with hot-reload
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Lint and fix files
-npm run lint
-```
-
-### Build Configuration
-
-- **Base Path**: `/admin/` for deployment
-- **Output Directory**: `dist/` folder
-- **Environment Variables**: Support for `.env` files
-- **Asset Optimization**: Automatic CSS/JS minification and optimization
-
-## 📞 Dev Support
-
-For development questions or technical support, please contact:
-
+- **Business Inquiries**: hello@ecofriendlydrycleaner.com
+- **Technical Support**: dev@tanuj.xyz
 - **Developer**: Tanuj Siripurapu
-- **Email**: dev@tanuj.xyz
 
 ---
 
-Built with ❤️ using Vue 3 and modern web technologies.
+**EcoFresh Admin Panel** - Professional, responsive, and secure promotion management. 🚀
