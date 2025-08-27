@@ -6,48 +6,54 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard'
+      redirect: '/dashboard',
     },
     {
       path: '/login',
       name: 'Login',
       component: () => import('../views/Login.vue'),
-      meta: { requiresGuest: true }
+      meta: { requiresGuest: true },
     },
     {
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('../views/Dashboard.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: '/promotions',
       name: 'Promotions',
       component: () => import('../views/Promotions.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: '/promotions/new',
       name: 'NewPromotion',
       component: () => import('../views/NewPromotion.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
+      meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
       path: '/promotions/edit/:id',
       name: 'EditPromotion',
       component: () => import('../views/EditPromotion.vue'),
-      meta: { requiresAuth: true, requiresAdmin: true }
-    }
-  ]
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
+      path: '/orders',
+      name: 'Orders',
+      component: () => import('../views/Orders.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+  ],
 })
 
 // Navigation guards
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-  
+
   // Wait for auth to initialize
   if (authStore.loading) {
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       const unwatch = authStore.$subscribe(() => {
         if (!authStore.loading) {
           unwatch()

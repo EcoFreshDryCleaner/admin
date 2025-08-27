@@ -46,6 +46,10 @@
             <font-awesome-icon icon="fa-solid fa-chart-line" class="nav-icon" />
             <span class="nav-text">Promotions</span>
           </router-link>
+          <router-link to="/orders" class="nav-link" :class="{ active: $route.path === '/orders' }">
+            <font-awesome-icon icon="fa-solid fa-shopping-bag" class="nav-icon" />
+            <span class="nav-text">Orders</span>
+          </router-link>
         </div>
       </div>
     </nav>
