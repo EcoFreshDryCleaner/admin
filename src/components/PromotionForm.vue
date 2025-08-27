@@ -53,59 +53,30 @@
       <!-- Valid From -->
       <div class="form-group">
         <label for="validFrom" class="form-label">Valid From</label>
-        <input
-          id="validFrom"
-          v-model="form.validFrom"
-          type="date"
-          class="form-input"
-        />
+        <input id="validFrom" v-model="form.validFrom" type="date" class="form-input" />
       </div>
 
       <!-- Valid Until -->
       <div class="form-group">
         <label for="validUntil" class="form-label">Valid Until</label>
-        <input
-          id="validUntil"
-          v-model="form.validUntil"
-          type="date"
-          class="form-input"
-        />
+        <input id="validUntil" v-model="form.validUntil" type="date" class="form-input" />
       </div>
     </div>
 
     <!-- Checkboxes -->
     <div class="space-y-4">
       <div class="flex items-center space-x-2">
-        <input
-          id="active"
-          v-model="form.active"
-          type="checkbox"
-          class="form-checkbox"
-        />
-        <label for="active" class="text-sm font-medium text-gray-700">
-          Active Promotion
-        </label>
+        <input id="active" v-model="form.active" type="checkbox" class="form-checkbox" />
+        <label for="active" class="text-sm font-medium text-gray-700"> Active Promotion </label>
       </div>
 
       <div class="flex items-center space-x-2">
-        <input
-          id="featured"
-          v-model="form.featured"
-          type="checkbox"
-          class="form-checkbox"
-        />
-        <label for="featured" class="text-sm font-medium text-gray-700">
-          Featured Promotion
-        </label>
+        <input id="featured" v-model="form.featured" type="checkbox" class="form-checkbox" />
+        <label for="featured" class="text-sm font-medium text-gray-700"> Featured Promotion </label>
       </div>
 
       <div class="flex items-center space-x-2">
-        <input
-          id="showModal"
-          v-model="form.showModal"
-          type="checkbox"
-          class="form-checkbox"
-        />
+        <input id="showModal" v-model="form.showModal" type="checkbox" class="form-checkbox" />
         <label for="showModal" class="text-sm font-medium text-gray-700">
           Show as Modal (only one can be active)
         </label>
@@ -125,18 +96,8 @@
 
     <!-- Submit Buttons -->
     <div class="flex justify-end space-x-4">
-      <button
-        type="button"
-        @click="$emit('cancel')"
-        class="btn btn-secondary"
-      >
-        Cancel
-      </button>
-      <button
-        type="submit"
-        :disabled="loading"
-        class="btn btn-primary"
-      >
+      <button type="button" @click="$emit('cancel')" class="btn btn-secondary">Cancel</button>
+      <button type="submit" :disabled="loading" class="btn btn-primary">
         <span v-if="loading">Saving...</span>
         <span v-else>{{ isEditing ? 'Update' : 'Create' }} Promotion</span>
       </button>
@@ -150,12 +111,12 @@ import { ref, computed, watch } from 'vue'
 const props = defineProps({
   promotion: {
     type: Object,
-    default: null
+    default: null,
   },
   loading: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['submit', 'cancel'])
@@ -173,35 +134,43 @@ const form = ref({
   active: true,
   featured: false,
   showModal: false,
-  terms: ''
+  terms: '',
 })
 
 // Watch for promotion changes (when editing)
-watch(() => props.promotion, (newPromotion) => {
-  if (newPromotion) {
-    form.value = {
-      title: newPromotion.title || '',
-      description: newPromotion.description || '',
-      discountCode: newPromotion.discountCode || '',
-      discountAmount: newPromotion.discountAmount || '',
-      validFrom: newPromotion.validFrom ? newPromotion.validFrom.toDate().toISOString().split('T')[0] : '',
-      validUntil: newPromotion.validUntil ? newPromotion.validUntil.toDate().toISOString().split('T')[0] : '',
-      active: newPromotion.active !== undefined ? newPromotion.active : true,
-      featured: newPromotion.featured || false,
-      showModal: newPromotion.showModal || false,
-      terms: newPromotion.terms || ''
+watch(
+  () => props.promotion,
+  (newPromotion) => {
+    if (newPromotion) {
+      form.value = {
+        title: newPromotion.title || '',
+        description: newPromotion.description || '',
+        discountCode: newPromotion.discountCode || '',
+        discountAmount: newPromotion.discountAmount || '',
+        validFrom: newPromotion.validFrom
+          ? newPromotion.validFrom.toDate().toISOString().split('T')[0]
+          : '',
+        validUntil: newPromotion.validUntil
+          ? newPromotion.validUntil.toDate().toISOString().split('T')[0]
+          : '',
+        active: newPromotion.active !== undefined ? newPromotion.active : true,
+        featured: newPromotion.featured || false,
+        showModal: newPromotion.showModal || false,
+        terms: newPromotion.terms || '',
+      }
     }
-  }
-}, { immediate: true })
+  },
+  { immediate: true },
+)
 
 // Handle form submission
 const handleSubmit = () => {
   const formData = {
     ...form.value,
     validFrom: form.value.validFrom ? new Date(form.value.validFrom) : null,
-    validUntil: form.value.validUntil ? new Date(form.value.validUntil) : null
+    validUntil: form.value.validUntil ? new Date(form.value.validUntil) : null,
   }
-  
+
   emit('submit', formData)
 }
 </script>

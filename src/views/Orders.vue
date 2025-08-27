@@ -1,293 +1,269 @@
 <template>
-  <DashboardLayout>
-    <div class="orders-container">
-      <!-- Page Header -->
-      <div class="page-header">
-        <h1 class="page-title">Orders Management</h1>
-        <p class="page-subtitle">View and manage customer orders</p>
-      </div>
+  <div class="orders-container">
+    <!-- Filters -->
+    <div class="filters-section">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label for="status-filter" class="filter-label">Filter by Status:</label>
+          <select v-model="statusFilter" id="status-filter" class="filter-select">
+            <option value="">All Orders</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="picked_up">Picked Up</option>
+            <option value="dropped_off">Dropped Off</option>
+            <option value="in_progress">In Progress</option>
+            <option value="cleaning">Cleaning</option>
+            <option value="ready">Ready</option>
+            <option value="ready_for_pickup">Ready for Pickup</option>
+            <option value="out_for_delivery">Out for Delivery</option>
+            <option value="delivered">Delivered</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
 
-      <!-- Filters -->
-      <div class="filters-section">
-        <div class="filters-row">
-          <div class="filter-group">
-            <label for="status-filter" class="filter-label">Filter by Status:</label>
-            <select v-model="statusFilter" id="status-filter" class="filter-select">
-              <option value="">All Orders</option>
-              <option value="pending">Pending</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="picked_up">Picked Up</option>
-              <option value="dropped_off">Dropped Off</option>
-              <option value="in_progress">In Progress</option>
-              <option value="cleaning">Cleaning</option>
-              <option value="ready">Ready</option>
-              <option value="ready_for_pickup">Ready for Pickup</option>
-              <option value="out_for_delivery">Out for Delivery</option>
-              <option value="delivered">Delivered</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
+        <div class="filter-group">
+          <label for="location-filter" class="filter-label">Filter by Location:</label>
+          <select v-model="locationFilter" id="location-filter" class="filter-select">
+            <option value="">All Locations</option>
+            <option v-for="location in availableLocations" :key="location" :value="location">
+              {{ getLocationDisplayName(location) }}
+            </option>
+          </select>
+        </div>
 
-          <div class="filter-group">
-            <label for="location-filter" class="filter-label">Filter by Location:</label>
-            <select v-model="locationFilter" id="location-filter" class="filter-select">
-              <option value="">All Locations</option>
-              <option v-for="location in availableLocations" :key="location" :value="location">
-                {{ getLocationDisplayName(location) }}
-              </option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="sort-by" class="filter-label">Sort by:</label>
-            <select v-model="sortBy" id="sort-by" class="filter-select">
-              <option value="date_placed">Date Placed (Newest)</option>
-              <option value="date_placed_asc">Date Placed (Oldest)</option>
-              <option value="service_date">Service Date</option>
-              <option value="order_number">Order Number</option>
-              <option value="customer_name">Customer Name</option>
-              <option value="total_price">Total Price</option>
-            </select>
-          </div>
+        <div class="filter-group">
+          <label for="sort-by" class="filter-label">Sort by:</label>
+          <select v-model="sortBy" id="sort-by" class="filter-select">
+            <option value="date_placed">Date Placed (Newest)</option>
+            <option value="date_placed_asc">Date Placed (Oldest)</option>
+            <option value="service_date">Service Date</option>
+            <option value="order_number">Order Number</option>
+            <option value="customer_name">Customer Name</option>
+            <option value="total_price">Total Price</option>
+          </select>
         </div>
       </div>
+    </div>
 
-      <!-- Orders Table -->
-      <div class="orders-card">
-        <div class="card-header">
-          <h3 class="card-title">Orders</h3>
+    <!-- Orders Table -->
+    <div class="orders-card">
+      <div class="card-header">
+        <h3 class="card-title">Orders</h3>
+      </div>
+      <div class="card-body">
+        <div v-if="filteredOrders.length === 0" class="empty-state">
+          <p class="empty-text">No orders found</p>
         </div>
-        <div class="card-body">
-          <div v-if="filteredOrders.length === 0" class="empty-state">
-            <p class="empty-text">No orders found</p>
+        <div v-else class="orders-table">
+          <div class="table-header">
+            <div class="table-cell">Order # & Status</div>
+            <div class="table-cell">Customer</div>
+            <div class="table-cell">Total</div>
+            <div class="table-cell">Location</div>
+            <div class="table-cell">Service Date</div>
+            <div class="table-cell">Items</div>
+            <div class="table-cell">Actions</div>
           </div>
-          <div v-else class="orders-table">
-            <div class="table-header">
-              <div class="table-cell">Order # & Status</div>
-              <div class="table-cell">Customer</div>
-              <div class="table-cell">Location</div>
-              <div class="table-cell">Service Date</div>
-              <div class="table-cell">Items</div>
-              <div class="table-cell">Total</div>
-              <div class="table-cell">Actions</div>
+
+          <div v-for="order in filteredOrders" :key="order.id" class="table-row">
+            <div class="table-cell order-status">
+              <div class="order-number">
+                <strong>{{ order.order_number }}</strong>
+              </div>
+              <div class="order-status-badge">
+                <span :class="['status-badge', `status-${order.status}`]">
+                  {{ formatStatus(order.status) }}
+                </span>
+              </div>
             </div>
-
-            <div v-for="order in filteredOrders" :key="order.id" class="table-row">
-              <div class="table-cell order-status">
-                <div class="order-number">
-                  <strong>{{ order.order_number }}</strong>
+            <div class="table-cell customer-info">
+              <div class="customer-name">{{ order.customer_name }}</div>
+              <button
+                class="customer-info-toggle"
+                @click="toggleCustomerInfo(order.id)"
+                :class="{ expanded: expandedCustomers.has(order.id) }"
+              >
+                <span class="toggle-text">{{
+                  expandedCustomers.has(order.id) ? 'Hide Details' : 'Show Details'
+                }}</span>
+                <font-awesome-icon
+                  :icon="
+                    expandedCustomers.has(order.id)
+                      ? 'fa-solid fa-chevron-up'
+                      : 'fa-solid fa-chevron-down'
+                  "
+                  class="toggle-icon"
+                />
+              </button>
+              <div v-if="expandedCustomers.has(order.id)" class="customer-details">
+                <div class="detail-item">
+                  <!-- <span class="detail-label">Email:</span> -->
+                  <span class="detail-value">{{ order.customer_phone }}</span>
                 </div>
-                <div class="order-status-badge">
-                  <span :class="['status-badge', `status-${order.status}`]">
-                    {{ formatStatus(order.status) }}
-                  </span>
+                <div class="detail-item">
+                  <!-- <span class="detail-label">Phone:</span> -->
+                  <span class="detail-value">{{ order.customer_email }}</span>
                 </div>
               </div>
-              <div class="table-cell customer-info">
-                <div class="customer-name">{{ order.customer_name }}</div>
+            </div>
+            <div class="table-cell total-price">${{ order.total_price }}</div>
+            <div class="table-cell location-info">
+              <div class="location-name">
+                {{ order.service_location_name || getLocationDisplayName(order.service_location) }}
+              </div>
+              <div class="service-type-badge">
+                <span :class="['service-badge', `service-${order.service_type}`]">
+                  {{ order.service_type === 'pickup' ? 'Pick Up' : 'Drop Off' }}
+                </span>
+              </div>
+
+              <!-- For pickup orders, show pickup address as collapsible -->
+              <div v-if="order.service_type === 'pickup' && order.pickup_address">
                 <button
-                  class="customer-info-toggle"
-                  @click="toggleCustomerInfo(order.id)"
-                  :class="{ expanded: expandedCustomers.has(order.id) }"
+                  class="address-toggle"
+                  @click="togglePickupAddress(order.id)"
+                  :class="{ expanded: expandedPickupAddresses.has(order.id) }"
                 >
                   <span class="toggle-text">{{
-                    expandedCustomers.has(order.id) ? 'Hide Details' : 'Show Details'
+                    expandedPickupAddresses.has(order.id)
+                      ? 'Hide Pickup Address'
+                      : 'Show Pickup Address'
                   }}</span>
                   <font-awesome-icon
                     :icon="
-                      expandedCustomers.has(order.id)
+                      expandedPickupAddresses.has(order.id)
                         ? 'fa-solid fa-chevron-up'
                         : 'fa-solid fa-chevron-down'
                     "
                     class="toggle-icon"
                   />
                 </button>
-                <div v-if="expandedCustomers.has(order.id)" class="customer-details">
-                  <div class="detail-item">
-                    <!-- <span class="detail-label">Email:</span> -->
-                    <span class="detail-value">{{ order.customer_email }}</span>
-                  </div>
-                  <div class="detail-item">
-                    <!-- <span class="detail-label">Phone:</span> -->
-                    <span class="detail-value">{{ order.customer_phone }}</span>
-                  </div>
+                <div v-if="expandedPickupAddresses.has(order.id)" class="pickup-address">
+                  <div class="address-label">Pickup Address:</div>
+                  <div class="address-value">{{ order.pickup_address }}</div>
                 </div>
               </div>
-              <div class="table-cell location-info">
-                <div class="location-name">
-                  {{
-                    order.service_location_name || getLocationDisplayName(order.service_location)
-                  }}
-                </div>
-                <div class="service-type-badge">
-                  <span :class="['service-badge', `service-${order.service_type}`]">
-                    {{ order.service_type === 'pickup' ? 'Pick Up' : 'Drop Off' }}
-                  </span>
-                </div>
+
+              <!-- For dropoff orders, show service location address as collapsible -->
+              <div v-if="order.service_type === 'dropoff' && order.service_location_address">
                 <button
-                  class="location-info-toggle"
-                  @click="toggleLocationInfo(order.id)"
-                  :class="{ expanded: expandedLocations.has(order.id) }"
+                  class="address-toggle"
+                  @click="toggleDropoffAddress(order.id)"
+                  :class="{ expanded: expandedDropoffAddresses.has(order.id) }"
                 >
                   <span class="toggle-text">{{
-                    expandedLocations.has(order.id) ? 'Hide Address' : 'Show Address'
+                    expandedDropoffAddresses.has(order.id)
+                      ? 'Hide Service Location'
+                      : 'Show Service Location'
                   }}</span>
                   <font-awesome-icon
                     :icon="
-                      expandedLocations.has(order.id)
+                      expandedDropoffAddresses.has(order.id)
                         ? 'fa-solid fa-chevron-up'
                         : 'fa-solid fa-chevron-down'
                     "
                     class="toggle-icon"
                   />
                 </button>
-                <div v-if="expandedLocations.has(order.id)" class="location-details">
-                  <div class="detail-item">
-                    <!-- <span class="detail-label">Address:</span> -->
-                    <span class="detail-value">{{ order.service_location_address }}</span>
-                  </div>
+                <div v-if="expandedDropoffAddresses.has(order.id)" class="dropoff-address">
+                  <div class="address-label">Service Location:</div>
+                  <div class="address-value">{{ order.service_location_address }}</div>
                 </div>
               </div>
-              <div class="table-cell service-date">
-                {{ formatDate(order.service_date) }}
-              </div>
-              <div class="table-cell items">
-                <div v-for="(quantity, item) in order.items" :key="item" class="item">
-                  {{ formatItemName(item) }}: {{ quantity }}
-                </div>
-              </div>
-              <div class="table-cell total-price">${{ order.total_price }}</div>
-              <div class="table-cell actions">
-                <select
-                  v-model="order.status"
-                  @change="handleUpdateOrderStatus(order.id, order.status)"
-                  class="status-select"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="confirmed">Confirmed</option>
-                  <option value="picked_up">Picked Up</option>
-                  <option value="dropped_off">Dropped Off</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="cleaning">Cleaning</option>
-                  <option value="ready">Ready</option>
-                  <option value="ready_for_pickup">Ready for Pickup</option>
-                  <option value="out_for_delivery">Out for Delivery</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="completed">Completed</option>
-                  <option value="cancelled">Cancelled</option>
-                </select>
+            </div>
+            <div class="table-cell service-date">
+              {{ formatDate(order.service_date) }}
+            </div>
+            <div class="table-cell items">
+              <div v-for="(quantity, item) in order.items" :key="item" class="item">
+                {{ formatItemName(item) }}: {{ quantity }}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stats Grid -->
-      <div class="stats-grid">
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-shopping-bag" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">Total Orders</p>
-            <p class="stats-value">{{ ordersStats.total }}</p>
-          </div>
-        </div>
-
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-clock" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">Pending</p>
-            <p class="stats-value">{{ ordersStats.pending }}</p>
-          </div>
-        </div>
-
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-spinner" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">In Progress</p>
-            <p class="stats-value">{{ ordersStats.inProgress }}</p>
-          </div>
-        </div>
-
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-soap" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">Cleaning</p>
-            <p class="stats-value">{{ ordersStats.cleaning }}</p>
-          </div>
-        </div>
-
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-check-circle" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">Ready</p>
-            <p class="stats-value">{{ ordersStats.ready + ordersStats.ready_for_pickup }}</p>
-          </div>
-        </div>
-
-        <div class="stats-card">
-          <div class="stats-icon">
-            <font-awesome-icon icon="fa-solid fa-truck" class="stats-icon-svg" />
-          </div>
-          <div class="stats-content">
-            <p class="stats-label">Out for Delivery</p>
-            <p class="stats-value">{{ ordersStats.out_for_delivery }}</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Location Stats -->
-      <div v-if="availableLocations.length > 1" class="location-stats-section">
-        <h3 class="location-stats-title">Orders by Location</h3>
-        <div class="location-stats-grid">
-          <div
-            v-for="location in availableLocations"
-            :key="location"
-            class="location-stat-card"
-            :class="{ 'active-location': locationFilter === location }"
-            @click="locationFilter = locationFilter === location ? '' : location"
-          >
-            <div class="location-stat-header">
-              <h4 class="location-name">{{ getLocationDisplayName(location) }}</h4>
-              <span class="location-count">{{ getLocationOrderCount(location) }}</span>
-            </div>
-            <div class="location-stat-breakdown">
-              <span class="stat-item"
-                >Pending: {{ getLocationStatusCount(location, 'pending') }}</span
+            <div class="table-cell actions">
+              <select
+                v-model="order.status"
+                @change="handleUpdateOrderStatus(order.id, order.status)"
+                class="status-select"
               >
-              <span class="stat-item"
-                >In Progress: {{ getLocationStatusCount(location, 'in_progress') }}</span
-              >
-              <span class="stat-item"
-                >Ready:
-                {{
-                  getLocationStatusCount(location, 'ready') +
-                  getLocationStatusCount(location, 'ready_for_pickup')
-                }}</span
-              >
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="picked_up">Picked Up</option>
+                <option value="dropped_off">Dropped Off</option>
+                <option value="in_progress">In Progress</option>
+                <option value="cleaning">Cleaning</option>
+                <option value="ready">Ready</option>
+                <option value="ready_for_pickup">Ready for Pickup</option>
+                <option value="out_for_delivery">Out for Delivery</option>
+                <option value="delivered">Delivered</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </DashboardLayout>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <StatsCard icon="fa-solid fa-shopping-bag" label="Total Orders" :value="ordersStats.total" />
+      <StatsCard icon="fa-solid fa-clock" label="Pending" :value="ordersStats.pending" />
+      <StatsCard icon="fa-solid fa-spinner" label="In Progress" :value="ordersStats.inProgress" />
+      <StatsCard icon="fa-solid fa-soap" label="Cleaning" :value="ordersStats.cleaning" />
+      <StatsCard
+        icon="fa-solid fa-check-circle"
+        label="Ready"
+        :value="ordersStats.ready + ordersStats.ready_for_pickup"
+      />
+      <StatsCard
+        icon="fa-solid fa-truck"
+        label="Out for Delivery"
+        :value="ordersStats.out_for_delivery"
+      />
+    </div>
+
+    <!-- Location Stats -->
+    <div v-if="availableLocations.length > 1" class="location-stats-section">
+      <h3 class="location-stats-title">Orders by Location</h3>
+      <div class="location-stats-grid">
+        <div
+          v-for="location in availableLocations"
+          :key="location"
+          class="location-stat-card"
+          :class="{ 'active-location': locationFilter === location }"
+          @click="locationFilter = locationFilter === location ? '' : location"
+        >
+          <div class="location-stat-header">
+            <h4 class="location-name">{{ getLocationDisplayName(location) }}</h4>
+            <span class="location-count">{{ getLocationOrderCount(location) }}</span>
+          </div>
+          <div class="location-stat-breakdown">
+            <span class="stat-item"
+              >Pending: {{ getLocationStatusCount(location, 'pending') }}</span
+            >
+            <span class="stat-item"
+              >In Progress: {{ getLocationStatusCount(location, 'in_progress') }}</span
+            >
+            <span class="stat-item"
+              >Ready:
+              {{
+                getLocationStatusCount(location, 'ready') +
+                getLocationStatusCount(location, 'ready_for_pickup')
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useCollection } from 'vuefire'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import DashboardLayout from '../components/DashboardLayout.vue'
+import StatsCard from '../components/StatsCard.vue'
 import {
   allOrdersQuery,
   getOrdersCountByStatus,
@@ -320,6 +296,8 @@ const locationFilter = ref('')
 const sortBy = ref('date_placed')
 const expandedCustomers = ref(new Set())
 const expandedLocations = ref(new Set())
+const expandedPickupAddresses = ref(new Set())
+const expandedDropoffAddresses = ref(new Set())
 
 // Computed properties
 const availableLocations = computed(() => {
@@ -434,6 +412,22 @@ const toggleLocationInfo = (orderId) => {
   }
 }
 
+const togglePickupAddress = (orderId) => {
+  if (expandedPickupAddresses.value.has(orderId)) {
+    expandedPickupAddresses.value.delete(orderId)
+  } else {
+    expandedPickupAddresses.value.add(orderId)
+  }
+}
+
+const toggleDropoffAddress = (orderId) => {
+  if (expandedDropoffAddresses.value.has(orderId)) {
+    expandedDropoffAddresses.value.delete(orderId)
+  } else {
+    expandedDropoffAddresses.value.add(orderId)
+  }
+}
+
 const handleUpdateOrderStatus = async (orderId, newStatus) => {
   try {
     await updateOrderStatus(orderId, newStatus)
@@ -464,23 +458,7 @@ onMounted(async () => {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
-}
-
-.page-header {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-
-.page-subtitle {
-  font-size: 1.1rem;
-  color: #6b7280;
+  margin-top: 1rem;
 }
 
 .stats-grid {
@@ -489,47 +467,6 @@ onMounted(async () => {
   gap: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-
-.stats-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.stats-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stats-icon-svg {
-  color: white;
-  font-size: 1.5rem;
-}
-
-.stats-content {
-  flex: 1;
-}
-
-.stats-label {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.25rem;
-}
-
-.stats-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
 }
 
 .filters-section {
@@ -608,7 +545,7 @@ onMounted(async () => {
 
 .table-header {
   display: grid;
-  grid-template-columns: 200px 180px 160px 150px 200px 100px 150px;
+  grid-template-columns: 200px 180px 100px 160px 150px 200px 150px;
   gap: 1rem;
   padding: 1rem 1.5rem;
   background: #f9fafb;
@@ -619,7 +556,7 @@ onMounted(async () => {
 
 .table-row {
   display: grid;
-  grid-template-columns: 200px 180px 160px 150px 200px 100px 150px;
+  grid-template-columns: 200px 180px 100px 160px 150px 200px 150px;
   gap: 1rem;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #f3f4f6;
@@ -695,6 +632,31 @@ onMounted(async () => {
 .location-info-toggle.expanded {
   color: #1d4ed8;
   background: #dbeafe;
+}
+
+.address-toggle {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-top: 0.25rem;
+}
+
+.address-toggle:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.address-toggle.expanded {
+  color: #374151;
+  background: #e5e7eb;
 }
 
 .toggle-icon {
@@ -775,6 +737,39 @@ onMounted(async () => {
 .service-dropoff {
   background: #e9d5ff;
   color: #7c3aed;
+}
+
+.pickup-address,
+.dropoff-address {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.pickup-address {
+  background: #f0f9ff;
+  border-left: 3px solid #3b82f6;
+}
+
+.dropoff-address {
+  background: #f0fdf4;
+  border-left: 3px solid #16a34a;
+}
+
+.address-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.address-value {
+  font-size: 0.75rem;
+  color: #374151;
+  line-height: 1.3;
+  word-break: break-word;
 }
 
 .service-date {
@@ -897,7 +892,7 @@ onMounted(async () => {
 @media (max-width: 1200px) {
   .table-header,
   .table-row {
-    grid-template-columns: 160px 140px 120px 120px 160px 80px 120px;
+    grid-template-columns: 160px 140px 80px 120px 120px 160px 120px;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
   }

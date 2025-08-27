@@ -1,14 +1,14 @@
-import { 
-  collection, 
-  doc, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
+import {
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
   serverTimestamp,
   query,
   where,
   orderBy,
-  getDocs
+  getDocs,
 } from 'firebase/firestore'
 import { db } from '../firebase/config'
 
@@ -16,16 +16,13 @@ import { db } from '../firebase/config'
 export const promotionsRef = collection(db, 'promotions')
 
 // Query for all promotions (admin view)
-export const allPromotionsQuery = query(
-  promotionsRef,
-  orderBy('createdAt', 'desc')
-)
+export const allPromotionsQuery = query(promotionsRef, orderBy('createdAt', 'desc'))
 
 // Query for active promotions only
 export const activePromotionsQuery = query(
   promotionsRef,
   where('active', '==', true),
-  orderBy('createdAt', 'desc')
+  orderBy('createdAt', 'desc'),
 )
 
 // Create new promotion
@@ -102,7 +99,7 @@ const ensureOnlyOneModal = async (excludeId = null) => {
     const modalQuery = query(
       promotionsRef,
       where('active', '==', true),
-      where('showModal', '==', true)
+      where('showModal', '==', true),
     )
 
     const querySnapshot = await getDocs(modalQuery)
@@ -114,7 +111,7 @@ const ensureOnlyOneModal = async (excludeId = null) => {
         updateDoc(doc.ref, {
           showModal: false,
           updatedAt: serverTimestamp(),
-        })
+        }),
       )
 
     if (updatePromises.length > 0) {
