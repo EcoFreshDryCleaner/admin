@@ -1,4 +1,9 @@
-import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendPasswordResetEmail as firebaseSendPasswordResetEmail,
+} from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase/config'
 
@@ -54,4 +59,14 @@ export const getCurrentUser = () => {
 // Listen to auth state changes
 export const onAuthStateChange = (callback) => {
   return onAuthStateChanged(auth, callback)
+}
+
+// Send password reset email
+export const sendPasswordResetEmail = async (email) => {
+  try {
+    await firebaseSendPasswordResetEmail(auth, email)
+  } catch (error) {
+    console.error('Password reset error:', error)
+    throw error
+  }
 }
