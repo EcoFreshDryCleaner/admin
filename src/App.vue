@@ -13,17 +13,26 @@ const pageInfo = computed(() => {
   const routeMap = {
     '/dashboard': { title: 'Dashboard', subtitle: 'Overview of your promotions and system status' },
     '/promotions': { title: 'Promotions', subtitle: 'Manage your promotions and special offers' },
+    '/services': { title: 'Services', subtitle: 'Manage your services and offerings' },
     '/orders': { title: 'Orders Management', subtitle: 'View and manage customer orders' },
     '/promotions/new': {
       title: 'New Promotion',
       subtitle: 'Create a new promotion or special offer',
     },
     '/promotions/edit': { title: 'Edit Promotion', subtitle: 'Update promotion details' },
+    '/services/new': {
+      title: 'New Service',
+      subtitle: 'Create a new service offering',
+    },
+    '/services/edit': { title: 'Edit Service', subtitle: 'Update service details' },
   }
 
-  // Handle edit route with dynamic ID
+  // Handle edit routes with dynamic ID
   if (route.path.startsWith('/promotions/edit/')) {
     return { title: 'Edit Promotion', subtitle: 'Update promotion details' }
+  }
+  if (route.path.startsWith('/services/edit/')) {
+    return { title: 'Edit Service', subtitle: 'Update service details' }
   }
 
   return (
@@ -38,8 +47,19 @@ const pageInfo = computed(() => {
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: 'fa-solid fa-tachometer-alt' },
   { path: '/promotions', label: 'Promotions', icon: 'fa-solid fa-chart-line' },
+  { path: '/services', label: 'Services', icon: 'fa-solid fa-cogs' },
   { path: '/orders', label: 'Orders', icon: 'fa-solid fa-shopping-bag' },
 ]
+
+const handleLogout = async () => {
+  try {
+    await authStore.logout()
+    // Redirect to login page after logout
+    await router.push('/login')
+  } catch (error) {
+    console.error('Logout error:', error)
+  }
+}
 
 onMounted(() => {
   // Check auth state on app mount
@@ -69,7 +89,11 @@ onMounted(() => {
               :key="item.path"
               :to="item.path"
               class="nav-item"
-              :class="{ active: $route.path === item.path }"
+              :class="{ 
+                active: item.path === '/services' 
+                  ? $route.path.startsWith('/services') 
+                  : $route.path === item.path 
+              }"
             >
               <font-awesome-icon :icon="item.icon" class="nav-icon" />
               <span class="nav-label">{{ item.label }}</span>
@@ -81,7 +105,7 @@ onMounted(() => {
           <div class="user-info">
             <span class="user-email">{{ authStore.user?.email }}</span>
           </div>
-          <button @click="authStore.logout" class="logout-btn">
+          <button @click="handleLogout" class="logout-btn">
             <font-awesome-icon icon="fa-solid fa-sign-out-alt" class="btn-icon" />
             <span class="btn-text">Sign out</span>
           </button>

@@ -39,6 +39,24 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true },
     },
     {
+      path: '/services',
+      name: 'Services',
+      component: () => import('../views/Services.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
+      path: '/services/new',
+      name: 'NewService',
+      component: () => import('../views/NewService.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
+      path: '/services/edit/:id',
+      name: 'EditService',
+      component: () => import('../views/EditService.vue'),
+      meta: { requiresAuth: true, requiresAdmin: true },
+    },
+    {
       path: '/orders',
       name: 'Orders',
       component: () => import('../views/Orders.vue'),

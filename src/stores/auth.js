@@ -26,8 +26,8 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = async () => {
     try {
       await signOutUser()
-      user.value = null
-      isAdmin.value = false
+      // The auth state change will be handled by onAuthStateChange
+      // and the router guards will redirect to /login automatically
     } catch (error) {
       console.error('Logout error:', error)
     }
