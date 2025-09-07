@@ -45,6 +45,7 @@ const servicesData = [
     order: 1,
     price: 0,
     featured: false,
+    icon: 'car-outline',
     overview: {
       title: 'Convenient Service to Your Door',
       description:
@@ -86,24 +87,24 @@ const servicesData = [
           'Your clean garments are delivered back to you at your preferred time and location.',
       },
     ],
-    benefits: [
-      {
-        title: 'Time Saving',
-        description: 'No more trips to the dry cleaner - we handle everything for you.',
-      },
-      {
-        title: 'Convenient',
-        description: 'Schedule pickups and deliveries that fit your busy lifestyle.',
-      },
-      {
-        title: 'Reliable',
-        description: 'Consistent, on-time service you can count on every time.',
-      },
-      {
-        title: 'Professional',
-        description: 'Trained staff handle your garments with the utmost care.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Time Saving',
+    //     description: 'No more trips to the dry cleaner - we handle everything for you.',
+    //   },
+    //   {
+    //     title: 'Convenient',
+    //     description: 'Schedule pickups and deliveries that fit your busy lifestyle.',
+    //   },
+    //   {
+    //     title: 'Reliable',
+    //     description: 'Consistent, on-time service you can count on every time.',
+    //   },
+    //   {
+    //     title: 'Professional',
+    //     description: 'Trained staff handle your garments with the utmost care.',
+    //   },
+    // ],
   },
   {
     slug: 'wash-fold-laundry',
@@ -113,6 +114,7 @@ const servicesData = [
     order: 2,
     price: 12.99,
     featured: true, // Make this featured
+    icon: 'refresh-outline',
     overview: {
       title: 'Complete Laundry Service',
       description:
@@ -149,24 +151,24 @@ const servicesData = [
         description: 'Final inspection ensures everything meets our high standards.',
       },
     ],
-    benefits: [
-      {
-        title: 'Time Saving',
-        description: 'Free up hours of your week with our professional laundry service.',
-      },
-      {
-        title: 'Gentle Care',
-        description: 'Your clothes receive gentle treatment to maintain their quality.',
-      },
-      {
-        title: 'Professional Results',
-        description: 'Expert folding and organization for easy storage and wear.',
-      },
-      {
-        title: 'Bulk Pricing',
-        description: 'Special rates available for larger orders and regular customers.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Time Saving',
+    //     description: 'Free up hours of your week with our professional laundry service.',
+    //   },
+    //   {
+    //     title: 'Gentle Care',
+    //     description: 'Your clothes receive gentle treatment to maintain their quality.',
+    //   },
+    //   {
+    //     title: 'Professional Results',
+    //     description: 'Expert folding and organization for easy storage and wear.',
+    //   },
+    //   {
+    //     title: 'Bulk Pricing',
+    //     description: 'Special rates available for larger orders and regular customers.',
+    //   },
+    // ],
   },
   {
     slug: 'shirt-laundry',
@@ -176,6 +178,7 @@ const servicesData = [
     order: 3,
     price: 8.99,
     featured: false,
+    icon: 'shirt-outline',
     overview: {
       title: 'Professional Shirt Care',
       description:
@@ -212,24 +215,24 @@ const servicesData = [
         description: 'Shirts are presented on hangers, ready to wear immediately.',
       },
     ],
-    benefits: [
-      {
-        title: 'Professional Results',
-        description: 'Crisp, professional appearance that makes a great impression.',
-      },
-      {
-        title: 'Fabric Care',
-        description: 'Specialized techniques preserve your shirt quality and longevity.',
-      },
-      {
-        title: 'Convenience',
-        description: 'Hanger-ready shirts save you time getting ready for work.',
-      },
-      {
-        title: 'Express Service',
-        description: 'Quick turnaround for when you need shirts in a hurry.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Professional Results',
+    //     description: 'Crisp, professional appearance that makes a great impression.',
+    //   },
+    //   {
+    //     title: 'Fabric Care',
+    //     description: 'Specialized techniques preserve your shirt quality and longevity.',
+    //   },
+    //   {
+    //     title: 'Convenience',
+    //     description: 'Hanger-ready shirts save you time getting ready for work.',
+    //   },
+    //   {
+    //     title: 'Express Service',
+    //     description: 'Quick turnaround for when you need shirts in a hurry.',
+    //   },
+    // ],
   },
   {
     slug: 'dry-cleaning',
@@ -239,6 +242,7 @@ const servicesData = [
     order: 4,
     price: 15.99,
     featured: false,
+    icon: 'shirt-outline',
     overview: {
       title: 'Expert Care for Delicate Fabrics',
       description:
@@ -277,24 +281,24 @@ const servicesData = [
         description: 'Quality check ensures every item meets our high standards before return.',
       },
     ],
-    benefits: [
-      {
-        title: 'Eco-Friendly',
-        description: 'GreenEarth cleaning is safe for your clothes and the environment.',
-      },
-      {
-        title: 'Expert Care',
-        description: 'Specialized knowledge for handling delicate and valuable garments.',
-      },
-      {
-        title: 'Stain Removal',
-        description: 'Professional stain treatment for the most challenging marks.',
-      },
-      {
-        title: 'Fabric Protection',
-        description: 'Treatments to help protect and extend the life of your garments.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Eco-Friendly',
+    //     description: 'GreenEarth cleaning is safe for your clothes and the environment.',
+    //   },
+    //   {
+    //     title: 'Expert Care',
+    //     description: 'Specialized knowledge for handling delicate and valuable garments.',
+    //   },
+    //   {
+    //     title: 'Stain Removal',
+    //     description: 'Professional stain treatment for the most challenging marks.',
+    //   },
+    //   {
+    //     title: 'Fabric Protection',
+    //     description: 'Treatments to help protect and extend the life of your garments.',
+    //   },
+    // ],
   },
   {
     slug: 'wedding-dresses',
@@ -304,6 +308,7 @@ const servicesData = [
     order: 5,
     price: 89.99,
     featured: false,
+    icon: 'heart-outline',
     overview: {
       title: 'Expert Wedding Gown Care',
       description:
@@ -343,24 +348,24 @@ const servicesData = [
         description: 'Beautiful presentation box for safe, long-term storage of your memories.',
       },
     ],
-    benefits: [
-      {
-        title: 'Expert Care',
-        description: 'Specialized knowledge in wedding gown fabrics and construction.',
-      },
-      {
-        title: 'Stain Removal',
-        description: 'Professional treatment of wedding day stains and marks.',
-      },
-      {
-        title: 'Preservation',
-        description: 'Acid-free packaging ensures your gown stays beautiful for generations.',
-      },
-      {
-        title: 'Memorial Quality',
-        description: 'Beautiful presentation for passing down to future generations.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Expert Care',
+    //     description: 'Specialized knowledge in wedding gown fabrics and construction.',
+    //   },
+    //   {
+    //     title: 'Stain Removal',
+    //     description: 'Professional treatment of wedding day stains and marks.',
+    //   },
+    //   {
+    //     title: 'Preservation',
+    //     description: 'Acid-free packaging ensures your gown stays beautiful for generations.',
+    //   },
+    //   {
+    //     title: 'Memorial Quality',
+    //     description: 'Beautiful presentation for passing down to future generations.',
+    //   },
+    // ],
   },
   {
     slug: 'outerwear',
@@ -370,6 +375,7 @@ const servicesData = [
     order: 6,
     price: 19.99,
     featured: false,
+    icon: 'snow-outline',
     overview: {
       title: 'Specialized Outerwear Care',
       description:
@@ -407,24 +413,24 @@ const servicesData = [
         description: 'Waterproofing and protective treatments as needed for weather protection.',
       },
     ],
-    benefits: [
-      {
-        title: 'Fabric Expertise',
-        description: 'Specialized knowledge for wool, cashmere, down, and technical fabrics.',
-      },
-      {
-        title: 'Weather Protection',
-        description: 'Professional waterproofing and protective treatments.',
-      },
-      {
-        title: 'Seasonal Care',
-        description: 'Proper cleaning and storage preparation for seasonal items.',
-      },
-      {
-        title: 'Longevity',
-        description: 'Expert care extends the life and performance of your outerwear.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Fabric Expertise',
+    //     description: 'Specialized knowledge for wool, cashmere, down, and technical fabrics.',
+    //   },
+    //   {
+    //     title: 'Weather Protection',
+    //     description: 'Professional waterproofing and protective treatments.',
+    //   },
+    //   {
+    //     title: 'Seasonal Care',
+    //     description: 'Proper cleaning and storage preparation for seasonal items.',
+    //   },
+    //   {
+    //     title: 'Longevity',
+    //     description: 'Expert care extends the life and performance of your outerwear.',
+    //   },
+    // ],
   },
   {
     slug: 'alterations',
@@ -434,6 +440,7 @@ const servicesData = [
     order: 7,
     price: 12.99,
     featured: false,
+    icon: 'cut-outline',
     overview: {
       title: 'Professional Tailoring Services',
       description:
@@ -471,24 +478,24 @@ const servicesData = [
         description: 'Final fitting to ensure perfect results and customer satisfaction.',
       },
     ],
-    benefits: [
-      {
-        title: 'Perfect Fit',
-        description: 'Expert alterations ensure your clothes fit you perfectly.',
-      },
-      {
-        title: 'Quality Craftsmanship',
-        description: 'Professional techniques and attention to detail in every alteration.',
-      },
-      {
-        title: 'Versatile Services',
-        description: 'From simple repairs to complex alterations, we handle it all.',
-      },
-      {
-        title: 'Rush Service',
-        description: 'Quick turnaround available for urgent alterations and repairs.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Perfect Fit',
+    //     description: 'Expert alterations ensure your clothes fit you perfectly.',
+    //   },
+    //   {
+    //     title: 'Quality Craftsmanship',
+    //     description: 'Professional techniques and attention to detail in every alteration.',
+    //   },
+    //   {
+    //     title: 'Versatile Services',
+    //     description: 'From simple repairs to complex alterations, we handle it all.',
+    //   },
+    //   {
+    //     title: 'Rush Service',
+    //     description: 'Quick turnaround available for urgent alterations and repairs.',
+    //   },
+    // ],
   },
   {
     slug: 'shoes',
@@ -498,6 +505,7 @@ const servicesData = [
     order: 8,
     price: 9.99,
     featured: false,
+    icon: 'footsteps-outline',
     overview: {
       title: 'Professional Shoe Care',
       description:
@@ -534,24 +542,24 @@ const servicesData = [
         description: 'Conditioning and waterproofing treatments for long-lasting protection.',
       },
     ],
-    benefits: [
-      {
-        title: 'Professional Shine',
-        description: 'Expert shining techniques for that mirror-like finish.',
-      },
-      {
-        title: 'Quality Repairs',
-        description: 'Professional repairs that extend the life of your footwear.',
-      },
-      {
-        title: 'Leather Care',
-        description: 'Specialized conditioning and protection for leather shoes.',
-      },
-      {
-        title: 'Express Service',
-        description: 'Quick shine service available for same-day results.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Professional Shine',
+    //     description: 'Expert shining techniques for that mirror-like finish.',
+    //   },
+    //   {
+    //     title: 'Quality Repairs',
+    //     description: 'Professional repairs that extend the life of your footwear.',
+    //   },
+    //   {
+    //     title: 'Leather Care',
+    //     description: 'Specialized conditioning and protection for leather shoes.',
+    //   },
+    //   {
+    //     title: 'Express Service',
+    //     description: 'Quick shine service available for same-day results.',
+    //   },
+    // ],
   },
   {
     slug: 'leather-products',
@@ -561,6 +569,7 @@ const servicesData = [
     order: 9,
     price: 24.99,
     featured: false,
+    icon: 'bag-outline',
     overview: {
       title: 'Expert Leather and Suede Care',
       description:
@@ -599,24 +608,24 @@ const servicesData = [
         description: 'Waterproofing and protective treatments for long-lasting care.',
       },
     ],
-    benefits: [
-      {
-        title: 'Expert Knowledge',
-        description: 'Specialized expertise in leather and suede care techniques.',
-      },
-      {
-        title: 'Restoration',
-        description: 'Professional restoration brings new life to worn leather items.',
-      },
-      {
-        title: 'Protection',
-        description: 'Conditioning and waterproofing treatments protect your investment.',
-      },
-      {
-        title: 'Longevity',
-        description: 'Proper care extends the life and beauty of your leather goods.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Expert Knowledge',
+    //     description: 'Specialized expertise in leather and suede care techniques.',
+    //   },
+    //   {
+    //     title: 'Restoration',
+    //     description: 'Professional restoration brings new life to worn leather items.',
+    //   },
+    //   {
+    //     title: 'Protection',
+    //     description: 'Conditioning and waterproofing treatments protect your investment.',
+    //   },
+    //   {
+    //     title: 'Longevity',
+    //     description: 'Proper care extends the life and beauty of your leather goods.',
+    //   },
+    // ],
   },
   {
     slug: 'bedding-household',
@@ -626,6 +635,7 @@ const servicesData = [
     order: 10,
     price: 29.99,
     featured: false,
+    icon: 'bed-outline',
     overview: {
       title: 'Home Textile Care',
       description:
@@ -662,24 +672,24 @@ const servicesData = [
         description: 'Proper packaging for storage or immediate use in your home.',
       },
     ],
-    benefits: [
-      {
-        title: 'Large Item Expertise',
-        description: 'Specialized equipment and techniques for oversized household items.',
-      },
-      {
-        title: 'Deep Cleaning',
-        description: 'Professional cleaning removes allergens, dust mites, and odors.',
-      },
-      {
-        title: 'Convenience',
-        description: 'Handle items too large for home washing machines.',
-      },
-      {
-        title: 'Seasonal Care',
-        description: 'Proper cleaning and storage preparation for seasonal items.',
-      },
-    ],
+    // benefits: [
+    //   {
+    //     title: 'Large Item Expertise',
+    //     description: 'Specialized equipment and techniques for oversized household items.',
+    //   },
+    //   {
+    //     title: 'Deep Cleaning',
+    //     description: 'Professional cleaning removes allergens, dust mites, and odors.',
+    //   },
+    //   {
+    //     title: 'Convenience',
+    //     description: 'Handle items too large for home washing machines.',
+    //   },
+    //   {
+    //     title: 'Seasonal Care',
+    //     description: 'Proper cleaning and storage preparation for seasonal items.',
+    //   },
+    // ],
   },
 ]
 

@@ -89,6 +89,20 @@
         <p class="form-help">Base price for this service (used by mobile app)</p>
       </div>
 
+      <!-- Icon -->
+      <div class="form-group">
+        <label for="icon" class="form-label">Icon *</label>
+        <input
+          id="icon"
+          v-model="form.icon"
+          type="text"
+          required
+          class="form-input"
+          placeholder="e.g., shirt-outline"
+        />
+        <p class="form-help">Ionicons icon name (used in mobile app). Examples: shirt-outline, car-outline, heart-outline</p>
+      </div>
+
       <!-- Status Checkboxes -->
       <div class="form-group md:col-span-2">
         <div class="checkbox-group">
@@ -252,7 +266,7 @@
     </div>
 
     <!-- Benefits Section -->
-    <div class="section-divider">
+    <!-- <div class="section-divider">
       <h3 class="section-title">Benefits</h3>
     </div>
 
@@ -306,7 +320,7 @@
         <font-awesome-icon icon="fa-solid fa-plus" />
         Add Benefit
       </button>
-    </div>
+    </div> -->
 
     <!-- Form Actions -->
     <div class="form-actions">
@@ -355,6 +369,7 @@ const getDefaultForm = () => ({
   heroImage: '',
   order: 1,
   price: 0,
+  icon: 'shirt-outline',
   active: true,
   featured: false,
   overview: {
@@ -369,12 +384,12 @@ const getDefaultForm = () => ({
       description: '',
     },
   ],
-  benefits: [
-    {
-      title: '',
-      description: '',
-    },
-  ],
+  // benefits: [
+  //   {
+  //     title: '',
+  //     description: '',
+  //   },
+  // ],
 })
 
 const form = ref(getDefaultForm())
@@ -391,6 +406,7 @@ watch(
         heroImage: newService.heroImage || '',
         order: newService.order || 1,
         price: newService.price || 0,
+        icon: newService.icon || 'shirt-outline',
         active: newService.active !== undefined ? newService.active : true,
         featured: newService.featured || false,
         overview: {
@@ -404,9 +420,9 @@ watch(
         process: newService.process?.length
           ? [...newService.process]
           : [{ title: '', description: '' }],
-        benefits: newService.benefits?.length
-          ? [...newService.benefits]
-          : [{ title: '', description: '' }],
+        // benefits: newService.benefits?.length
+        //   ? [...newService.benefits]
+        //   : [{ title: '', description: '' }],
       }
     }
   },
@@ -451,15 +467,15 @@ const removeProcessStep = (index) => {
 }
 
 // Benefit management
-const addBenefit = () => {
-  form.value.benefits.push({ title: '', description: '' })
-}
+// const addBenefit = () => {
+//   form.value.benefits.push({ title: '', description: '' })
+// }
 
-const removeBenefit = (index) => {
-  if (form.value.benefits.length > 1) {
-    form.value.benefits.splice(index, 1)
-  }
-}
+// const removeBenefit = (index) => {
+//   if (form.value.benefits.length > 1) {
+//     form.value.benefits.splice(index, 1)
+//   }
+// }
 
 // Form submission
 const handleSubmit = () => {
@@ -634,14 +650,84 @@ const handleCancel = () => {
   background: #e5e7eb;
 }
 
-.process-container,
-.benefits-container {
+.process-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.process-step,
+.process-step {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.step-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.remove-step-btn {
+  padding: 0.5rem;
+  background: #fee2e2;
+  color: #991b1b;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-step-btn:hover:not(:disabled) {
+  background: #fecaca;
+}
+
+.remove-step-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-step-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.add-step-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Benefits styles commented out since benefits are not used in ServiceDetailView.vue */
+/* .benefits-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .benefit-item {
   border: 1px solid #e5e7eb;
   border-radius: 0.5rem;
@@ -649,7 +735,6 @@ const handleCancel = () => {
   background: #f9fafb;
 }
 
-.step-header,
 .benefit-header {
   display: flex;
   justify-content: space-between;
@@ -657,7 +742,6 @@ const handleCancel = () => {
   margin-bottom: 1rem;
 }
 
-.step-title,
 .benefit-title {
   font-size: 1rem;
   font-weight: 600;
@@ -665,7 +749,6 @@ const handleCancel = () => {
   margin: 0;
 }
 
-.remove-step-btn,
 .remove-benefit-btn {
   padding: 0.5rem;
   background: #fee2e2;
@@ -681,18 +764,15 @@ const handleCancel = () => {
   justify-content: center;
 }
 
-.remove-step-btn:hover:not(:disabled),
 .remove-benefit-btn:hover:not(:disabled) {
   background: #fecaca;
 }
 
-.remove-step-btn:disabled,
 .remove-benefit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.add-step-btn,
 .add-benefit-btn {
   display: flex;
   align-items: center;
@@ -709,10 +789,9 @@ const handleCancel = () => {
   align-self: flex-start;
 }
 
-.add-step-btn:hover,
 .add-benefit-btn:hover {
   background: #e5e7eb;
-}
+} */
 
 .form-actions {
   display: flex;
