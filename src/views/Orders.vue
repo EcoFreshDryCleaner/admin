@@ -59,7 +59,6 @@
           <div class="table-header">
             <div class="table-cell">Order # & Status</div>
             <div class="table-cell">Customer</div>
-            <div class="table-cell">Total</div>
             <div class="table-cell">Location</div>
             <div class="table-cell">Service Date</div>
             <div class="table-cell">Items</div>
@@ -107,7 +106,6 @@
                 </div>
               </div>
             </div>
-            <div class="table-cell total-price">${{ order.total_price }}</div>
             <div class="table-cell location-info">
               <div class="location-name">
                 {{ order.service_location_name || getLocationDisplayName(order.service_location) }}
@@ -545,7 +543,7 @@ onMounted(async () => {
 
 .table-header {
   display: grid;
-  grid-template-columns: 200px 180px 100px 160px 150px 200px 150px;
+  grid-template-columns: 200px 180px 160px 150px 200px 150px;
   gap: 1rem;
   padding: 1rem 1.5rem;
   background: #f9fafb;
@@ -556,7 +554,7 @@ onMounted(async () => {
 
 .table-row {
   display: grid;
-  grid-template-columns: 200px 180px 100px 160px 150px 200px 150px;
+  grid-template-columns: 200px 180px 160px 150px 200px 150px;
   gap: 1rem;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #f3f4f6;
@@ -580,6 +578,7 @@ onMounted(async () => {
 .order-number {
   font-weight: 600;
   color: #1f2937;
+  text-align: center;
 }
 
 .order-status-badge {
@@ -792,12 +791,6 @@ onMounted(async () => {
   margin-bottom: 0.25rem;
 }
 
-.total-price {
-  font-weight: 600;
-  color: #059669;
-  font-size: 1.1rem;
-}
-
 .status-badge {
   padding: 0.5rem 1rem;
   border-radius: 9999px;
@@ -892,7 +885,7 @@ onMounted(async () => {
 @media (max-width: 1200px) {
   .table-header,
   .table-row {
-    grid-template-columns: 160px 140px 80px 120px 120px 160px 120px;
+    grid-template-columns: 160px 140px 120px 120px 160px 120px;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
   }

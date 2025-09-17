@@ -70,25 +70,6 @@
         <p class="form-help">Lower numbers appear first</p>
       </div>
 
-      <!-- Price -->
-      <div class="form-group">
-        <label for="price" class="form-label">Price *</label>
-        <div class="price-input-group">
-          <span class="price-currency">$</span>
-          <input
-            id="price"
-            v-model.number="form.price"
-            type="number"
-            required
-            min="0"
-            step="0.01"
-            class="form-input price-input"
-            placeholder="0.00"
-          />
-        </div>
-        <p class="form-help">Base price for this service (used by mobile app)</p>
-      </div>
-
       <!-- Icon -->
       <div class="form-group">
         <label for="icon" class="form-label">Icon *</label>
@@ -100,26 +81,21 @@
           class="form-input"
           placeholder="e.g., shirt-outline"
         />
-        <p class="form-help">Ionicons icon name (used in mobile app). Examples: shirt-outline, car-outline, heart-outline</p>
+        <p class="form-help">
+          Ionicons icon name (used in mobile app). Examples: shirt-outline, car-outline,
+          heart-outline
+        </p>
       </div>
 
       <!-- Status Checkboxes -->
       <div class="form-group md:col-span-2">
         <div class="checkbox-group">
           <label class="checkbox-label">
-            <input
-              v-model="form.active"
-              type="checkbox"
-              class="checkbox-input"
-            />
+            <input v-model="form.active" type="checkbox" class="checkbox-input" />
             <span class="checkbox-text">Active</span>
           </label>
           <label class="checkbox-label">
-            <input
-              v-model="form.featured"
-              type="checkbox"
-              class="checkbox-input"
-            />
+            <input v-model="form.featured" type="checkbox" class="checkbox-input" />
             <span class="checkbox-text">Featured</span>
           </label>
         </div>
@@ -176,11 +152,7 @@
       <div class="form-group md:col-span-2">
         <label class="form-label">Features *</label>
         <div class="features-container">
-          <div
-            v-for="(feature, index) in form.overview.features"
-            :key="index"
-            class="feature-item"
-          >
+          <div v-for="(feature, index) in form.overview.features" :key="index" class="feature-item">
             <input
               v-model="form.overview.features[index]"
               type="text"
@@ -196,11 +168,7 @@
               <font-awesome-icon icon="fa-solid fa-trash" />
             </button>
           </div>
-          <button
-            type="button"
-            @click="addFeature"
-            class="add-feature-btn"
-          >
+          <button type="button" @click="addFeature" class="add-feature-btn">
             <font-awesome-icon icon="fa-solid fa-plus" />
             Add Feature
           </button>
@@ -214,11 +182,7 @@
     </div>
 
     <div class="process-container">
-      <div
-        v-for="(step, index) in form.process"
-        :key="index"
-        class="process-step"
-      >
+      <div v-for="(step, index) in form.process" :key="index" class="process-step">
         <div class="step-header">
           <h4 class="step-title">Step {{ index + 1 }}</h4>
           <button
@@ -255,11 +219,7 @@
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        @click="addProcessStep"
-        class="add-step-btn"
-      >
+      <button type="button" @click="addProcessStep" class="add-step-btn">
         <font-awesome-icon icon="fa-solid fa-plus" />
         Add Process Step
       </button>
@@ -324,19 +284,10 @@
 
     <!-- Form Actions -->
     <div class="form-actions">
-      <button
-        type="button"
-        @click="handleCancel"
-        class="btn btn-secondary"
-        :disabled="loading"
-      >
+      <button type="button" @click="handleCancel" class="btn btn-secondary" :disabled="loading">
         Cancel
       </button>
-      <button
-        type="submit"
-        class="btn btn-primary"
-        :disabled="loading"
-      >
+      <button type="submit" class="btn btn-primary" :disabled="loading">
         <span v-if="loading">Saving...</span>
         <span v-else>{{ service ? 'Update Service' : 'Create Service' }}</span>
       </button>
@@ -368,7 +319,6 @@ const getDefaultForm = () => ({
   subtitle: '',
   heroImage: '',
   order: 1,
-  price: 0,
   icon: 'shirt-outline',
   active: true,
   featured: false,
@@ -405,7 +355,6 @@ watch(
         subtitle: newService.subtitle || '',
         heroImage: newService.heroImage || '',
         order: newService.order || 1,
-        price: newService.price || 0,
         icon: newService.icon || 'shirt-outline',
         active: newService.active !== undefined ? newService.active : true,
         featured: newService.featured || false,
@@ -426,7 +375,7 @@ watch(
       }
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 // Auto-generate slug from title
@@ -441,7 +390,7 @@ watch(
         .replace(/-+/g, '-')
         .trim()
     }
-  }
+  },
 )
 
 // Feature management
@@ -480,8 +429,8 @@ const removeProcessStep = (index) => {
 // Form submission
 const handleSubmit = () => {
   // Clean up empty features
-  form.value.overview.features = form.value.overview.features.filter(f => f.trim())
-  
+  form.value.overview.features = form.value.overview.features.filter((f) => f.trim())
+
   emit('submit', form.value)
 }
 
@@ -515,7 +464,7 @@ const handleCancel = () => {
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+
   .md\:col-span-2 {
     grid-column: span 2 / span 2;
   }
@@ -837,27 +786,5 @@ const handleCancel = () => {
 
 .btn-secondary:hover:not(:disabled) {
   background: #e5e7eb;
-}
-
-/* Price Input Styling */
-.price-input-group {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.price-currency {
-  position: absolute;
-  left: 0.75rem;
-  color: #6b7280;
-  font-weight: 600;
-  font-size: 0.875rem;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.price-input {
-  padding-left: 2rem;
-  text-align: right;
 }
 </style>
