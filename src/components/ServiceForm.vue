@@ -70,23 +70,6 @@
         <p class="form-help">Lower numbers appear first</p>
       </div>
 
-      <!-- Icon -->
-      <div class="form-group">
-        <label for="icon" class="form-label">Icon *</label>
-        <input
-          id="icon"
-          v-model="form.icon"
-          type="text"
-          required
-          class="form-input"
-          placeholder="e.g., shirt-outline"
-        />
-        <p class="form-help">
-          Ionicons icon name (used in mobile app). Examples: shirt-outline, car-outline,
-          heart-outline
-        </p>
-      </div>
-
       <!-- Status Checkboxes -->
       <div class="form-group md:col-span-2">
         <div class="checkbox-group">
@@ -319,7 +302,6 @@ const getDefaultForm = () => ({
   subtitle: '',
   heroImage: '',
   order: 1,
-  icon: 'shirt-outline',
   active: true,
   featured: false,
   overview: {
@@ -355,7 +337,6 @@ watch(
         subtitle: newService.subtitle || '',
         heroImage: newService.heroImage || '',
         order: newService.order || 1,
-        icon: newService.icon || 'shirt-outline',
         active: newService.active !== undefined ? newService.active : true,
         featured: newService.featured || false,
         overview: {
