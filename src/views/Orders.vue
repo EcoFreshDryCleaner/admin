@@ -116,6 +116,16 @@
                 </span>
               </div>
 
+              <!-- Show pickup location detail for pickup orders -->
+              <div
+                v-if="order.service_type === 'pickup' && order.pickup_location_detail"
+                class="pickup-location-detail"
+              >
+                <span class="pickup-detail-badge">
+                  {{ formatPickupLocationDetail(order.pickup_location_detail) }}
+                </span>
+              </div>
+
               <!-- For pickup orders, show pickup address as collapsible -->
               <div v-if="order.service_type === 'pickup' && order.pickup_address">
                 <button
@@ -363,6 +373,14 @@ const formatDate = (timestamp) => {
 
 const formatItemName = (itemKey) => {
   return itemKey
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+const formatPickupLocationDetail = (detail) => {
+  if (!detail) return ''
+  return detail
     .split('_')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
@@ -736,6 +754,25 @@ onMounted(async () => {
 .service-dropoff {
   background: #e9d5ff;
   color: #7c3aed;
+}
+
+.pickup-location-detail {
+  margin-top: 0.25rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.pickup-detail-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  background: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
 }
 
 .pickup-address,
