@@ -93,10 +93,8 @@
               <span class="overview-value">{{ ordersStats.cleaning }}</span>
             </div>
             <div class="overview-item">
-              <span class="overview-label">Ready:</span>
-              <span class="overview-value">{{
-                ordersStats.ready + ordersStats.ready_for_pickup
-              }}</span>
+              <span class="overview-label">Awaiting Payment:</span>
+              <span class="overview-value">{{ ordersStats.awaiting_payment }}</span>
             </div>
             <div class="overview-item">
               <span class="overview-label">Out for Delivery:</span>
@@ -129,14 +127,10 @@ const ordersStats = ref({
   pending: 0,
   confirmed: 0,
   picked_up: 0,
-  dropped_off: 0,
-  in_progress: 0,
   cleaning: 0,
-  ready: 0,
-  ready_for_pickup: 0,
+  awaiting_payment: 0,
   out_for_delivery: 0,
   delivered: 0,
-  completed: 0,
   cancelled: 0,
   inProgress: 0,
 })

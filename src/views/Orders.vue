@@ -10,14 +10,10 @@
             <option value="pending">Pending</option>
             <option value="confirmed">Confirmed</option>
             <option value="picked_up">Picked Up</option>
-            <option value="dropped_off">Dropped Off</option>
-            <option value="in_progress">In Progress</option>
             <option value="cleaning">Cleaning</option>
-            <option value="ready">Ready</option>
-            <option value="ready_for_pickup">Ready for Pickup</option>
+            <option value="awaiting_payment">Awaiting Payment</option>
             <option value="out_for_delivery">Out for Delivery</option>
             <option value="delivered">Delivered</option>
-            <option value="completed">Completed</option>
             <option value="cancelled">Cancelled</option>
           </select>
         </div>
@@ -197,14 +193,10 @@
                 <option value="pending">Pending</option>
                 <option value="confirmed">Confirmed</option>
                 <option value="picked_up">Picked Up</option>
-                <option value="dropped_off">Dropped Off</option>
-                <option value="in_progress">In Progress</option>
                 <option value="cleaning">Cleaning</option>
-                <option value="ready">Ready</option>
-                <option value="ready_for_pickup">Ready for Pickup</option>
+                <option value="awaiting_payment">Awaiting Payment</option>
                 <option value="out_for_delivery">Out for Delivery</option>
                 <option value="delivered">Delivered</option>
-                <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
@@ -220,9 +212,9 @@
       <StatsCard icon="fa-solid fa-spinner" label="In Progress" :value="ordersStats.inProgress" />
       <StatsCard icon="fa-solid fa-soap" label="Cleaning" :value="ordersStats.cleaning" />
       <StatsCard
-        icon="fa-solid fa-check-circle"
-        label="Ready"
-        :value="ordersStats.ready + ordersStats.ready_for_pickup"
+        icon="fa-solid fa-credit-card"
+        label="Awaiting Payment"
+        :value="ordersStats.awaiting_payment"
       />
       <StatsCard
         icon="fa-solid fa-truck"
@@ -254,11 +246,7 @@
               >In Progress: {{ getLocationStatusCount(location, 'in_progress') }}</span
             >
             <span class="stat-item"
-              >Ready:
-              {{
-                getLocationStatusCount(location, 'ready') +
-                getLocationStatusCount(location, 'ready_for_pickup')
-              }}</span
+              >Awaiting Payment: {{ getLocationStatusCount(location, 'awaiting_payment') }}</span
             >
           </div>
         </div>
@@ -287,14 +275,10 @@ const ordersStats = ref({
   pending: 0,
   confirmed: 0,
   picked_up: 0,
-  dropped_off: 0,
-  in_progress: 0,
   cleaning: 0,
-  ready: 0,
-  ready_for_pickup: 0,
+  awaiting_payment: 0,
   out_for_delivery: 0,
   delivered: 0,
-  completed: 0,
   cancelled: 0,
   inProgress: 0,
 })
@@ -865,29 +849,14 @@ onMounted(async () => {
   color: #7c3aed;
 }
 
-.status-dropped_off {
-  background: #e9d5ff;
-  color: #7c3aed;
-}
-
-.status-in_progress {
-  background: #fef3c7;
-  color: #92400e;
-}
-
 .status-cleaning {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-awaiting_payment {
   background: #fef3c7;
   color: #92400e;
-}
-
-.status-ready {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.status-ready_for_pickup {
-  background: #dbeafe;
-  color: #1e40af;
 }
 
 .status-out_for_delivery {
@@ -900,10 +869,6 @@ onMounted(async () => {
   color: #065f46;
 }
 
-.status-completed {
-  background: #d1fae5;
-  color: #065f46;
-}
 
 .status-cancelled {
   background: #fee2e2;
