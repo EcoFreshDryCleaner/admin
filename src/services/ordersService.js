@@ -2,31 +2,24 @@ import { collection, query, orderBy, where, getDocs, updateDoc, doc } from 'fire
 import { db } from '../firebase/config'
 
 // Universal Order Statuses
+// Flow: Pending -> Confirmation -> Picked Up -> Cleaning -> Payment -> Out For Delivery -> Delivered
 export const ORDER_STATUSES = {
   // Initial states
-  pending: 'Pending Confirmation',
+  pending: 'Pending',
   confirmed: 'Order Confirmed',
 
-  // Pickup service flow
+  // Pickup & Processing
   picked_up: 'Picked Up',
-
-  // Dropoff service flow
-  dropped_off: 'Dropped Off',
-
-  // Processing states
-  in_progress: 'In Progress',
   cleaning: 'Cleaning',
 
-  // Ready states
-  ready: 'Ready',
-  ready_for_pickup: 'Ready for Pickup',
+  // Payment
+  awaiting_payment: 'Awaiting Payment',
 
   // Delivery states
   out_for_delivery: 'Out for Delivery',
 
-  // Final states
+  // Final state
   delivered: 'Delivered',
-  completed: 'Completed',
 
   // Cancellation
   cancelled: 'Cancelled',
@@ -37,12 +30,22 @@ export const getStatusDisplayText = (status, serviceType = null) => {
   if (!status) return 'Unknown'
 
   switch (status) {
+    case 'pending':
+      return 'Pending'
+    case 'confirmed':
+      return 'Order Confirmed'
     case 'picked_up':
-      return serviceType === 'dropoff' ? 'Dropped Off' : 'Picked Up'
-    case 'dropped_off':
-      return 'Dropped Off'
+      return 'Picked Up'
+    case 'cleaning':
+      return 'Cleaning'
+    case 'awaiting_payment':
+      return 'Awaiting Payment'
+    case 'out_for_delivery':
+      return 'Out for Delivery'
     case 'delivered':
-      return serviceType === 'dropoff' ? 'Completed' : 'Delivered'
+      return 'Delivered'
+    case 'cancelled':
+      return 'Cancelled'
     default:
       return ORDER_STATUSES[status] || status.charAt(0).toUpperCase() + status.slice(1)
   }
@@ -53,11 +56,8 @@ export const isOrderInProgress = (status) => {
   const inProgressStatuses = [
     'confirmed',
     'picked_up',
-    'dropped_off',
-    'in_progress',
     'cleaning',
-    'ready',
-    'ready_for_pickup',
+    'awaiting_payment',
     'out_for_delivery',
   ]
   return inProgressStatuses.includes(status)
@@ -69,21 +69,16 @@ export const getStatusProgress = (status) => {
     case 'pending':
       return 0
     case 'confirmed':
-      return 10
+      return 15
     case 'picked_up':
-    case 'dropped_off':
-      return 20
-    case 'in_progress':
       return 30
     case 'cleaning':
       return 50
-    case 'ready':
-    case 'ready_for_pickup':
-      return 75
+    case 'awaiting_payment':
+      return 70
     case 'out_for_delivery':
-      return 90
+      return 85
     case 'delivered':
-    case 'completed':
       return 100
     case 'cancelled':
       return 0
@@ -136,14 +131,10 @@ export const getOrdersCountByStatus = async () => {
       pending: orders.filter((order) => order.status === 'pending').length,
       confirmed: orders.filter((order) => order.status === 'confirmed').length,
       picked_up: orders.filter((order) => order.status === 'picked_up').length,
-      dropped_off: orders.filter((order) => order.status === 'dropped_off').length,
-      in_progress: orders.filter((order) => order.status === 'in_progress').length,
       cleaning: orders.filter((order) => order.status === 'cleaning').length,
-      ready: orders.filter((order) => order.status === 'ready').length,
-      ready_for_pickup: orders.filter((order) => order.status === 'ready_for_pickup').length,
+      awaiting_payment: orders.filter((order) => order.status === 'awaiting_payment').length,
       out_for_delivery: orders.filter((order) => order.status === 'out_for_delivery').length,
       delivered: orders.filter((order) => order.status === 'delivered').length,
-      completed: orders.filter((order) => order.status === 'completed').length,
       cancelled: orders.filter((order) => order.status === 'cancelled').length,
       inProgress: orders.filter((order) => isOrderInProgress(order.status)).length,
     }
@@ -154,14 +145,10 @@ export const getOrdersCountByStatus = async () => {
       pending: 0,
       confirmed: 0,
       picked_up: 0,
-      dropped_off: 0,
-      in_progress: 0,
       cleaning: 0,
-      ready: 0,
-      ready_for_pickup: 0,
+      awaiting_payment: 0,
       out_for_delivery: 0,
       delivered: 0,
-      completed: 0,
       cancelled: 0,
       inProgress: 0,
     }
