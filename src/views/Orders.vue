@@ -243,7 +243,7 @@
               >Pending: {{ getLocationStatusCount(location, 'pending') }}</span
             >
             <span class="stat-item"
-              >In Progress: {{ getLocationStatusCount(location, 'in_progress') }}</span
+              >Cleaning: {{ getLocationStatusCount(location, 'cleaning') }}</span
             >
             <span class="stat-item"
               >Awaiting Payment: {{ getLocationStatusCount(location, 'awaiting_payment') }}</span
@@ -868,7 +868,6 @@ onMounted(async () => {
   background: #d1fae5;
   color: #065f46;
 }
-
 
 .status-cancelled {
   background: #fee2e2;
