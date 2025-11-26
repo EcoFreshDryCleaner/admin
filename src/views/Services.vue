@@ -5,6 +5,16 @@
       <router-link to="/services/new" class="add-service-btn"> Add Service </router-link>
     </div>
 
+    <!-- Info Note -->
+    <div class="info-note-section">
+      <div class="info-note">
+        <font-awesome-icon icon="fa-solid fa-info-circle" class="info-icon" />
+        <p class="info-text">
+          <strong>Note:</strong> These services appear on the website. The mobile app pulls items and prices directly from Square.
+        </p>
+      </div>
+    </div>
+
     <!-- Filters -->
     <div class="filters-section">
       <div class="filters-content">
@@ -44,7 +54,6 @@
                 <th class="table-header">Order</th>
                 <th class="table-header">Title</th>
                 <th class="table-header">Slug</th>
-                <th class="table-header">Price</th>
                 <th class="table-header">Status</th>
                 <th class="table-header">Featured</th>
                 <th class="table-header">Created</th>
@@ -61,9 +70,6 @@
                 </td>
                 <td class="table-cell">
                   <div class="service-slug">{{ service.slug }}</div>
-                </td>
-                <td class="table-cell">
-                  <div class="service-price">${{ formatPrice(service.price) }}</div>
                 </td>
                 <td class="table-cell">
                   <span
@@ -166,10 +172,6 @@
             <div class="meta-item">
               <span class="meta-label">Order:</span>
               <span class="meta-value">{{ service.order || '-' }}</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">Price:</span>
-              <span class="meta-value price-value">${{ formatPrice(service.price) }}</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">Featured:</span>
@@ -344,6 +346,40 @@ const deleteServiceHandler = async (id) => {
   background: #059669;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Info Note Section */
+.info-note-section {
+  margin-bottom: 1rem;
+}
+
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 0.5rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.info-icon {
+  color: #3b82f6;
+  font-size: 1.125rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.info-text {
+  margin: 0;
+  color: #1e40af;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.info-text strong {
+  font-weight: 600;
 }
 
 /* Filters Section */
