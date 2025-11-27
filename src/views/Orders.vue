@@ -19,16 +19,6 @@
         </div>
 
         <div class="filter-group">
-          <label for="location-filter" class="filter-label">Filter by Location:</label>
-          <select v-model="locationFilter" id="location-filter" class="filter-select">
-            <option value="">All Locations</option>
-            <option v-for="location in availableLocations" :key="location" :value="location">
-              {{ getLocationDisplayName(location) }}
-            </option>
-          </select>
-        </div>
-
-        <div class="filter-group">
           <label for="sort-by" class="filter-label">Sort by:</label>
           <select v-model="sortBy" id="sort-by" class="filter-select">
             <option value="date_placed">Date Placed (Newest)</option>
@@ -156,36 +146,6 @@
         :value="ordersStats.out_for_delivery"
       />
     </div>
-
-    <!-- Location Stats -->
-    <div v-if="availableLocations.length > 1" class="location-stats-section">
-      <h3 class="location-stats-title">Orders by Location</h3>
-      <div class="location-stats-grid">
-        <div
-          v-for="location in availableLocations"
-          :key="location"
-          class="location-stat-card"
-          :class="{ 'active-location': locationFilter === location }"
-          @click="locationFilter = locationFilter === location ? '' : location"
-        >
-          <div class="location-stat-header">
-            <h4 class="location-name">{{ getLocationDisplayName(location) }}</h4>
-            <span class="location-count">{{ getLocationOrderCount(location) }}</span>
-          </div>
-          <div class="location-stat-breakdown">
-            <span class="stat-item"
-              >Pending: {{ getLocationStatusCount(location, 'pending') }}</span
-            >
-            <span class="stat-item"
-              >Cleaning: {{ getLocationStatusCount(location, 'cleaning') }}</span
-            >
-            <span class="stat-item"
-              >Awaiting Payment: {{ getLocationStatusCount(location, 'awaiting_payment') }}</span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -218,24 +178,9 @@ const ordersStats = ref({
 })
 
 const statusFilter = ref('')
-const locationFilter = ref('')
 const sortBy = ref('date_placed')
 
 // Computed properties
-const availableLocations = computed(() => {
-  if (!orders.value) return []
-
-  const locations = new Set()
-  orders.value.forEach((order) => {
-    // Only include pickup orders
-    if (order.service_location && order.service_type === 'pickup') {
-      locations.add(order.service_location)
-    }
-  })
-
-  return Array.from(locations).sort()
-})
-
 const filteredOrders = computed(() => {
   if (!orders.value) return []
 
@@ -245,11 +190,6 @@ const filteredOrders = computed(() => {
   // Filter by status
   if (statusFilter.value) {
     filtered = filtered.filter((order) => order.status === statusFilter.value)
-  }
-
-  // Filter by location
-  if (locationFilter.value) {
-    filtered = filtered.filter((order) => order.service_location === locationFilter.value)
   }
 
   // Sort orders
@@ -303,34 +243,6 @@ const formatPickupLocationDetail = (detail) => {
 const formatStatus = (status) => {
   return getStatusDisplayText(status)
 }
-
-const getLocationDisplayName = (locationKey) => {
-  if (!locationKey) return 'Unknown Location'
-
-  // Convert location key to display name
-  return locationKey
-    .split('_')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-}
-
-const getLocationOrderCount = (location) => {
-  if (!orders.value) return 0
-  return orders.value.filter(
-    (order) => order.service_location === location && order.service_type === 'pickup',
-  ).length
-}
-
-const getLocationStatusCount = (location, status) => {
-  if (!orders.value) return 0
-  return orders.value.filter(
-    (order) =>
-      order.service_location === location &&
-      order.status === status &&
-      order.service_type === 'pickup',
-  ).length
-}
-
 
 const handleUpdateOrderStatus = async (orderId, newStatus) => {
   try {
@@ -753,85 +665,7 @@ onMounted(async () => {
   }
 }
 
-.location-stats-section {
-  margin-top: 2rem;
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.location-stats-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 1rem 0;
-}
-
-.location-stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-.location-stat-card {
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.location-stat-card:hover {
-  border-color: #3b82f6;
-  background: #f0f9ff;
-}
-
-.location-stat-card.active-location {
-  border-color: #3b82f6;
-  background: #dbeafe;
-}
-
-.location-stat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.location-stat-header .location-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
-}
-
-.location-count {
-  background: #3b82f6;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.location-stat-breakdown {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.stat-item {
-  font-size: 0.875rem;
-  color: #6b7280;
-}
-
 @media (max-width: 768px) {
-  .location-stats-grid {
-    grid-template-columns: 1fr;
-  }
-
   .filters-row {
     flex-direction: column;
     align-items: stretch;
